@@ -5,7 +5,7 @@ This branch contains the integrated production source.
 ## Exactly three modes
 
 1. Campaign — 30 structured waves with boss gates, elites, combo scoring, XP and permanent upgrades.
-2. Endless — infinite adaptive pressure with escalating density, elites and periodic bosses.
+2. Endless — infinite adaptive pressure with increasing density, health, speed, elite pressure and periodic bosses.
 3. Gauntlet — 8 timed trials with distinct combat mutators and a final boss-pressure trial.
 
 ## Integrated systems
