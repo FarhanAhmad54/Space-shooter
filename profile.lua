@@ -81,11 +81,14 @@ function Profile.hasProfile() return currentProfile ~= nil end
 function Profile.getProfileName() return currentProfile and currentProfile.name or nil end
 function Profile.getProfile() return currentProfile end
 
+-- Update a completed run. starsGained is the complete reward for this run,
+-- so callers do not need a second addStars call for the same score.
 function Profile.updateStats(score, starsGained)
     if not currentProfile then return end
     local runScore = math.max(0, math.floor(tonumber(score) or 0))
+    local runStars = math.max(0, math.floor(tonumber(starsGained) or 0))
     currentProfile.totalScore = currentProfile.totalScore + runScore
-    currentProfile.stars = currentProfile.stars + math.max(0, math.floor(tonumber(starsGained) or 0))
+    currentProfile.stars = currentProfile.stars + runStars
     currentProfile.bestScore = math.max(currentProfile.bestScore, runScore)
     saveCurrent()
 end
