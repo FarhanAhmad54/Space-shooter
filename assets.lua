@@ -16,7 +16,12 @@ local imageFiles={
 for i=0,10 do imageFiles["light"..i]="assets/light"..i..".png" end
 for i=0,27 do imageFiles["noise"..string.format("%02d",i)]="assets/noise"..string.format("%02d",i)..".png" end
 for i=0,9 do imageFiles["planet"..string.format("%02d",i)]="assets/planet"..string.format("%02d",i)..".png" end
-function Assets.load() if Assets.loaded then return Assets.images end; for k,p in pairs(imageFiles) do Assets.images[k]=safeImage(p) end; Assets.loaded=true; return Assets.images end
+function Assets.load()
+    if Assets.loaded then return Assets.images end
+    for k,p in pairs(imageFiles) do Assets.images[k]=safeImage(p) end
+    Assets.loaded=true
+    return Assets.images
+end
 function Assets.get(name) if not Assets.loaded then Assets.load() end; return Assets.images[name] end
 function Assets.drawImage(image,x,y,w,h,rotation,alpha)
     if not image then return false end
@@ -35,6 +40,35 @@ function Assets.drawImage(image,x,y,w,h,rotation,alpha)
     end
     return true
 end
+function Assets.getPowerUpImage(powerType)
+    if powerType=="health" then return Assets.get("bonusLife") end
+    if powerType=="shield" then return Assets.get("bonusShield") end
+    if powerType=="timeslow" then return Assets.get("bonusTime") end
+    return nil
+end
+
+-- Power-up art uses the supplied bonus sprites for the three clearest physical pickups.
+-- The original vector icon remains for all other power-up types.
+local okPowerUp,PowerUp=pcall(require,"powerup")
+if okPowerUp and PowerUp and type(PowerUp.draw)=="function" then
+    local originalPowerUpDraw=PowerUp.draw
+    function PowerUp:draw()
+        local art=Assets.getPowerUpImage(self.type)
+        if art then
+            local pulse=math.sin(self.pulseTimer*5)*.18+.82
+            local typeData=PowerUp.types[self.type]
+            if typeData then love.graphics.setColor(typeData.color[1],typeData.color[2],typeData.color[3],.18*pulse); love.graphics.circle("fill",self.x,self.y,self.radius+8) end
+            love.graphics.setColor(1,1,1,1)
+            local scale=(self.radius*2.4)/math.max(art:getWidth(),art:getHeight())
+            love.graphics.draw(art,self.x,self.y,0,scale,scale,art:getWidth()/2,art:getHeight()/2)
+            love.graphics.setColor(1,1,1,1)
+            return
+        end
+        originalPowerUpDraw(self)
+    end
+end
+
 function Assets.getLoadReport()
-    local loaded,missing=0,0; for k in pairs(imageFiles) do if Assets.images[k] then loaded=loaded+1 else missing=missing+1 end end; return {loaded=loaded,missing=missing,total=loaded+missing} end
+    local loaded,missing=0,0; for k in pairs(imageFiles) do if Assets.images[k] then loaded=loaded+1 else missing=missing+1 end end; return {loaded=loaded,missing=missing,total=loaded+missing}
+end
 return Assets
