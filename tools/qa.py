@@ -34,9 +34,9 @@ for p in [
 if "sounds/" not in files["sound.lua"]: errors.append("sound manager is not pointed at sounds/")
 
 for label, needle, source in [
-    ("temporary rapid-fire", "previous.rapidfire > 0", files["player.lua"]),
-    ("temporary damage boost", "previous.damage > 0", files["player.lua"]),
-    ("temporary multi-shot", "previous.multishot > 0", files["player.lua"]),
+    ("temporary rapid-fire", "rapidfire > 0", files["player.lua"]),
+    ("temporary damage boost", "damage > 0", files["player.lua"]),
+    ("temporary multi-shot", "multishot > 0", files["player.lua"]),
     ("armor mitigation", "self.powerups.armor > 0", files["player.lua"]),
     ("time slow state", "__SV_TIME_SCALE", files["player.lua"]),
     ("enemy time scaling", "dt=dt*(_G.__SV_TIME_SCALE or 1)", files["enemy.lua"]),
@@ -44,6 +44,14 @@ for label, needle, source in [
     ("weapon ammo refill", "d.autoReload", files["weapons.lua"]),
 ]:
     if needle not in source: errors.append(f"gameplay hook missing: {label}")
+
+for label, needles, source in [
+    ("weapon fire profile", ["Weapons.types", "fireRate", "damage", "bulletSpeed"], files["weapons.lua"]),
+    ("weapon selection state", ["currentWeapon", "Weapons.hasAmmo", "Weapons.useAmmo"], files["main.lua"]),
+    ("homing missile weapon data", ["homing=true", "explosion=true"], files["weapons.lua"]),
+]:
+    for needle in needles:
+        if needle not in source: errors.append(f"weapon integration missing: {label}: {needle}")
 
 for needle in ['id="firerate"','id="damage"','id="multishot"','id="piercing"','id="dronedamage"']:
     if needle not in files["xp.lua"]: errors.append(f"persistent upgrade missing: {needle}")
@@ -63,4 +71,4 @@ if errors:
     for e in errors: print(" -", e)
     sys.exit(1)
 print("STARFALL QA: PASS")
-print("Production source, three-mode registry, gameplay effects, asset/audio hooks, web loader shell and release packaging safeguards verified.")
+print("Production source, three-mode registry, gameplay effects, weapon wiring, asset/audio hooks, web loader shell and release packaging safeguards verified.")
