@@ -1,6 +1,6 @@
 # Starfall Vengeance — Production Rebuild
 
-This branch is the final integration branch for the arcade rebuild.
+This is the production integration branch for the arcade rebuild.
 
 ## Exactly three modes
 
@@ -12,7 +12,7 @@ This branch is the final integration branch for the arcade rebuild.
 
 - Centralized asset loading for ship, enemy, pet, planet, star, lighting, noise, projectile and bonus artwork.
 - Real repository sounds/ SFX with grouped variants and safe missing-file handling.
-- Pistol, shotgun, machine gun and sniper combat plus temporary homing/explosive modifiers.
+- Pistol, shotgun, machine gun and sniper available from run start; homing missiles remain an advanced weapon system.
 - XP progression and permanent upgrade choices.
 - Combo scoring, elite rewards, power-ups, drones, dash, enemy projectiles and boss radial attacks.
 - Persistent profile statistics and star rewards.
@@ -22,4 +22,4 @@ This branch is the final integration branch for the arcade rebuild.
 
 ## QA gate
 
-Run the project with LÖVE 11.5 and validate a real browser build before publishing. Repository inspection is not a substitute for runtime testing. Test menu navigation, all three modes, wave/trial progression, boss encounters, upgrade flow, power-ups, drones, dash, pause/resume, persistence, mobile touch controls, audio, and browser startup.
+The source integration is complete, but final release certification still requires a real LÖVE 11.5 runtime test and a real generated love.js/browser test. Verify menu navigation, all three modes, wave/trial progression, boss encounters, upgrades, power-ups, drones, dash, pause/resume, persistence, mobile touch controls, audio and browser startup before portal submission.
