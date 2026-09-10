@@ -16,7 +16,7 @@ Aim and fire, chain kills to grow the combo multiplier, collect temporary power-
 
 ## Controls
 
-Desktop: WASD/arrow keys to move, mouse to aim/fire, Space to dash, 1–4 to switch weapons, Esc to pause.
+Desktop: WASD/arrow keys to move, mouse to aim/fire, Space to dash, 1–4 to switch weapon, Esc to pause.
 
 Mobile: dual virtual joysticks; the right joystick handles aim and fires when pushed outward.
 
