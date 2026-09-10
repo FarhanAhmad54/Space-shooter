@@ -1,0 +1,6 @@
+Starfall Vengeance
+Engine: LÖVE 11.5
+Native archive: Starfall-Vengeance.love
+Web entry: web/index.html
+Player-facing modes: campaign, endless, gauntlet
+Release gates: tools/qa.py; tools/release_check.py; native LÖVE smoke test; browser smoke test; portal inspector validation
