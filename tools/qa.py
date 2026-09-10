@@ -49,18 +49,18 @@ for p in asset_patterns:
 if "sounds/" not in sound:
     errors.append("sound manager is not pointed at sounds/")
 
+source = player + enemy + weapons
 critical_hooks = {
-    "temporary rapid-fire": 'powerups.rapidfire > 0',
-    "temporary damage boost": 'powerups.damage > 0',
-    "temporary multi-shot": 'powerups.multishot > 0',
-    "armor mitigation": 'powerups.armor > 0',
-    "time slow": '__SV_TIME_SCALE',
+    "rapid-fire timer": 'previous.rapidfire > 0',
+    "damage boost timer": 'previous.damage > 0',
+    "multi-shot timer": 'previous.multishot > 0',
+    "armor mitigation": 'self.powerups.armor > 0',
+    "time slow state": '__SV_TIME_SCALE',
     "enemy time scaling": 'dt=dt*(_G.__SV_TIME_SCALE or 1)',
     "weapon auto reload": 'autoReload=true',
     "weapon ammo refill": 'd.autoReload'
 }
 for label, needle in critical_hooks.items():
-    source = player + enemy + weapons
     if needle not in source:
         errors.append(f"gameplay hook missing: {label}")
 
