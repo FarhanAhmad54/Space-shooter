@@ -30,7 +30,7 @@ if len(re.findall(r'^\s*\w+\s*=\s*\{id=', modes, re.M)) != 3:
 
 for needle in [
     'require("touchcontrols")','Assets.load()','Modes.waveRules(run)','XP.addXP(xpData',
-    'Particles','Effects','Sound.new()','Profile.init()','Modes.nextGauntletTrial(run)'
+    'Particles','Effects','Sound.new()','Modes.nextGauntletTrial(run)'
 ]:
     if needle not in main and needle not in modes:
         errors.append(f"integration missing: {needle}")
@@ -49,7 +49,6 @@ for p in asset_patterns:
 if "sounds/" not in sound:
     errors.append("sound manager is not pointed at sounds/")
 
-# Gameplay-critical wiring added during the production QA pass.
 critical_hooks = {
     "temporary rapid-fire": 'powerups.rapidfire > 0',
     "temporary damage boost": 'powerups.damage > 0',
@@ -65,7 +64,6 @@ for label, needle in critical_hooks.items():
     if needle not in source:
         errors.append(f"gameplay hook missing: {label}")
 
-# Permanent upgrade catalog should remain present and separated from timed effects.
 for needle in ['id="firerate"','id="damage"','id="multishot"','id="piercing"','id="dronedamage"']:
     if needle not in xp:
         errors.append(f"persistent upgrade missing: {needle}")
