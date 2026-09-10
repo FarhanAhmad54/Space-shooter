@@ -36,5 +36,5 @@ function Assets.drawImage(image,x,y,w,h,rotation,alpha)
     return true
 end
 function Assets.getLoadReport()
-    local loaded,missing=0,0; for _,p in pairs(imageFiles) do if Assets.images[p:gsub("^assets/","")] then loaded=loaded+1 else missing=missing+1 end end; return {loaded=loaded,missing=missing,total=loaded+missing} end
+    local loaded,missing=0,0; for k in pairs(imageFiles) do if Assets.images[k] then loaded=loaded+1 else missing=missing+1 end end; return {loaded=loaded,missing=missing,total=loaded+missing} end
 return Assets
