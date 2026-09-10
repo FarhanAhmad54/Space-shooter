@@ -1,0 +1,13 @@
+name: Starfall Vengeance QA
+on:
+  push:
+    branches: [main, production-rebuild-3modes]
+  pull_request:
+    branches: [main]
+jobs:
+  static-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run integration QA
+        run: python3 tools/qa.py
