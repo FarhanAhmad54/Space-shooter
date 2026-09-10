@@ -49,18 +49,17 @@ for p in asset_patterns:
 if "sounds/" not in sound:
     errors.append("sound manager is not pointed at sounds/")
 
-source = player + enemy + weapons
-critical_hooks = {
-    "rapid-fire timer": 'previous.rapidfire > 0',
-    "damage boost timer": 'previous.damage > 0',
-    "multi-shot timer": 'previous.multishot > 0',
-    "armor mitigation": 'self.powerups.armor > 0',
-    "time slow state": '__SV_TIME_SCALE',
-    "enemy time scaling": 'dt=dt*(_G.__SV_TIME_SCALE or 1)',
-    "weapon auto reload": 'autoReload=true',
-    "weapon ammo refill": 'd.autoReload'
-}
-for label, needle in critical_hooks.items():
+# Targeted gameplay regressions checked by the production pass.
+for label, needle, source in [
+    ("temporary rapid-fire", "previous.rapidfire > 0", player),
+    ("temporary damage boost", "previous.damage > 0", player),
+    ("temporary multi-shot", "previous.multishot > 0", player),
+    ("armor mitigation", "self.powerups.armor > 0", player),
+    ("time slow state", "_G.__SV_TIME_SCALE", player),
+    ("enemy time scaling", "dt=dt*(_G.__SV_TIME_SCALE or 1)", enemy),
+    ("weapon auto reload", "autoReload=true", weapons),
+    ("weapon ammo refill", "d.autoReload", weapons),
+]:
     if needle not in source:
         errors.append(f"gameplay hook missing: {label}")
 
