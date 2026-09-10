@@ -1,13 +1,47 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#03050d">
 <title>Starfall Vengeance</title>
-<style>html,body{margin:0;width:100%;height:100%;background:#03050d;overflow:hidden}canvas{display:block;margin:auto;width:100vw;height:100vh;touch-action:none}</style>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#03050d;overflow:hidden}
+body{font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+canvas{display:block;margin:auto;width:100vw;height:100vh;touch-action:none}
+#status{position:fixed;inset:0;display:grid;place-items:center;background:#03050d;color:#9fdcff;text-align:center;z-index:10;padding:24px;box-sizing:border-box}
+#status strong{font-size:28px;letter-spacing:.08em;display:block;margin-bottom:10px}
+#status span{font-size:14px;opacity:.75}
+.error{color:#ff9b9b}
+</style>
 </head>
 <body>
+<div id="status"><div><strong>STARFALL VENGEANCE</strong><span id="statusText">Loading game…</span></div></div>
 <script src="platform-bridge.js"></script>
-<!-- Replace this loader with the generated love.js bundle during web packaging. -->
-<div id="status" style="position:fixed;inset:0;display:grid;place-items:center;color:#9fdcff;font:16px system-ui;background:#03050d">STARFALL VENGEANCE</div>
-<script>window.addEventListener('load',()=>{window.StarfallPlatform&&window.StarfallPlatform.loadingFinished&&window.StarfallPlatform.loadingFinished()});</script>
-</body></html>
+<script>
+(function(){
+  const status=document.getElementById('status');
+  const text=document.getElementById('statusText');
+  window.addEventListener('error',function(e){
+    if(!window.__starfallStarted){status.innerHTML='<div class="error"><strong>STARFALL VENGEANCE</strong><span>Game failed to load. Check that the generated love.js bundle is present.</span></div>';}
+  });
+  window.addEventListener('unhandledrejection',function(){
+    if(!window.__starfallStarted){status.innerHTML='<div class="error"><strong>STARFALL VENGEANCE</strong><span>Game failed to start. Please reload.</span></div>';}
+  });
+  const loader=document.createElement('script');
+  loader.id='love-loader';
+  loader.src='love.js';
+  loader.async=true;
+  loader.onload=function(){
+    window.__starfallStarted=true;
+    status.style.display='none';
+    if(window.StarfallPlatform&&window.StarfallPlatform.loadingFinished) window.StarfallPlatform.loadingFinished();
+  };
+  loader.onerror=function(){
+    status.innerHTML='<div class="error"><strong>STARFALL VENGEANCE</strong><span>Web build missing: love.js was not found.</span></div>';
+  };
+  document.head.appendChild(loader);
+})();
+</script>
+</body>
+</html>
